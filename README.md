@@ -8,6 +8,7 @@ This is my fork, with my changes.
 
 * Enabled UUID serialization/deserialization
 * All arguments in "where" now serialized too if it possible
+* Database reset meta [more about](https://github.com/jlhonora/ActiveAndroid/commit/945a096fb28aca21cc8bf99e9f8f6930f8e82098)
 
 ## Download
 
