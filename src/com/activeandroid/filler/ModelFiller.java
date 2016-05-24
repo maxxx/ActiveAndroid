@@ -18,7 +18,7 @@ public class ModelFiller extends Filler<ExtendedModel> {
     public void fill(HashMap<String, Object> map, ExtendedModel extendedModel) {
         ExtendedModel model = (ExtendedModel) getValue(extendedModel);
         if (model != null) {
-            model.fastSave();
+            model.save();
             map.put(fieldName, model.getId());
         }
     }
