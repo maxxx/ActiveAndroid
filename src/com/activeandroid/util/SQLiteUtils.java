@@ -19,8 +19,8 @@ package com.activeandroid.util;
 import android.database.Cursor;
 import android.os.Build;
 import android.text.TextUtils;
-
 import com.activeandroid.Cache;
+import com.activeandroid.ExtendedModel;
 import com.activeandroid.Model;
 import com.activeandroid.TableInfo;
 import com.activeandroid.annotation.Column;
@@ -29,13 +29,7 @@ import com.activeandroid.serializer.TypeSerializer;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public final class SQLiteUtils {
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -106,6 +100,11 @@ public final class SQLiteUtils {
 		List<T> entities = processCursor(type, cursor);
 		cursor.close();
 
+		for (T entity : entities) {
+			if (entity instanceof ExtendedModel) {
+				((ExtendedModel) entity).afterLoad();
+			}
+		}
 		return entities;
 	}
 	  
@@ -121,6 +120,9 @@ public final class SQLiteUtils {
 		List<T> entities = rawQuery(type, sql, selectionArgs);
 
 		if (entities.size() > 0) {
+			if (entities.get(0) instanceof ExtendedModel) {
+				((ExtendedModel) entities.get(0)).afterLoad();
+			}
 			return entities.get(0);
 		}
 
