@@ -43,6 +43,17 @@ public final class Many<T extends ExtendedModel> extends ExtendedModel implement
         reload();
     }
 
+    /**
+     * sometimes clazz == null after load, can't find reason
+     * also "data" is empty, must fill here
+     */
+    @Override
+    public void afterLoad() {
+        super.afterLoad();
+        initClass();
+        reload();
+    }
+
     public Many(Class<T> clazz) {
         super();
         initWith(clazz);
