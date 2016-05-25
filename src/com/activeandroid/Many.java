@@ -132,7 +132,7 @@ public final class Many<T extends ExtendedModel> extends ExtendedModel implement
     public synchronized void reload() {
         if (data == null || data.isEmpty()) {
             if (clazz != null) {
-                if (ids.isEmpty()) {
+                if (!ids.isEmpty()) {
                     ArrayList<String> idsList = Convert.strToList(ids, ", ");
                     String where = "";
                     for (String arg : idsList) {
