@@ -6,7 +6,7 @@
 
     <uses-sdk
             android:minSdkVersion="14"
-            android:targetSdkVersion="21"/>
+            android:targetSdkVersion="22"/>
 
     <uses-permission android:name="android.permission.CALL_PHONE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -19,10 +19,7 @@
 
     <application
             android:allowBackup="true"
-            android:hardwareAccelerated="true"
-            android:icon="@android:drawable/ic_btn_speak_now"
-            android:label="utils"
-            android:theme="@android:style/Theme">
+            android:hardwareAccelerated="true">
     </application>
 
     <!--android:launchMode="singleTop"-->
