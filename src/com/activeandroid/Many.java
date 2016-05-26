@@ -7,22 +7,27 @@ import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Select;
 import com.activeandroid.util.Convert;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.lang.reflect.*;
 import java.util.*;
 
 @Table(name = "many", id = "_id")
 public final class Many<T extends ExtendedModel> extends ExtendedModel implements List<T> {
-
+    @JsonIgnore
     private Class<T> clazz;
+    //@JsonIgnore
     private List<T> data = new ArrayList<>();
 
     // список НЕ корректно сохраняется\загружается в базе, логика связи подразумевает отношение один ко многим
     //List<Long> ids = new ArrayList<>();
+    @JsonIgnore
     @Column(name = "items")
     String ids = ""; // "1, 2, 3..."
+    @JsonIgnore
     @Column(name = "type")
     String type = "";
+    @JsonIgnore
     @Column(name = "class_name")
     String class_name = "";
 

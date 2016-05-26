@@ -6,6 +6,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import com.activeandroid.content.ContentProvider;
 import com.activeandroid.filler.Filler;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -15,9 +16,9 @@ import java.util.Collection;
 import java.util.HashMap;
 
 public abstract class ExtendedModel extends Model implements Parcelable {
-    //@JsonIgnore
+    @JsonIgnore
     public TableInfo mTableInfo;
-    //@JsonIgnore
+    @JsonIgnore
     public String idName;
     public static HashMap<Class, ArrayList<Filler>> fastSaveCache = new HashMap<>();
     public static Constructor<ContentValues> contentValuesConstructor;
