@@ -2,6 +2,7 @@ package com.activeandroid;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.TextUtils;
 import android.util.Log;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
@@ -13,7 +14,7 @@ import java.lang.reflect.*;
 import java.util.*;
 
 @Table(name = "many", id = "_id")
-public final class Many<T extends ExtendedModel> extends ExtendedModel implements List<T> {
+public class Many<T extends ExtendedModel> extends ExtendedModel implements List<T> {
     @JsonIgnore
     private Class<T> clazz;
     //@JsonIgnore
@@ -76,8 +77,11 @@ public final class Many<T extends ExtendedModel> extends ExtendedModel implement
         reload();
     }
 
+    /**
+     * init clazz if class_name exists
+     */
     private void initClass() {
-        if (clazz == null && class_name != null) {
+        if (clazz == null && !TextUtils.isEmpty(class_name)) {
             try {
                 clazz = (Class<T>) Class.forName(class_name);
             } catch (ClassNotFoundException e) {
