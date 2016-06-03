@@ -140,7 +140,7 @@ public class Many<T extends ExtendedModel> extends ExtendedModel implements List
                     }
                     data = new Select().from(clazz).where(where, Convert.listToArr(idsList)).execute();
                 }
-            } else {
+            } else if (!ids.isEmpty()) {
                 Log.w("Many", "reload() called with clazz == null, class_name = " + class_name + ", ids = " + ids);
             }
         }
