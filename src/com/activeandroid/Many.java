@@ -141,11 +141,11 @@ public class Many<T extends ExtendedModel> extends ExtendedModel implements List
                     data = new Select().from(clazz).where(where, Convert.listToArr(idsList)).execute();
                 }
             } else {
-                Log.e("Many", "reload() called with clazz == null");
+                Log.w("Many", "reload() called with clazz == null, class_name = " + class_name + ", ids = " + ids);
             }
-            if (data == null) {
-                data = new ArrayList<>();
-            }
+        }
+        if (data == null) {
+            data = new ArrayList<>();
         }
     }
 
@@ -157,7 +157,7 @@ public class Many<T extends ExtendedModel> extends ExtendedModel implements List
     @Override
     public void add(int location, T object) {
         if (object.getId() == null) {
-            Log.e("Many", "add() in Many called for nonsaved object! " + object.toString());
+            Log.w("Many", "add() in Many called for nonsaved object! " + object.toString());
             object.save();
         }
         data.add(location, object);
@@ -167,7 +167,7 @@ public class Many<T extends ExtendedModel> extends ExtendedModel implements List
     @Override
     public boolean add(T object) {
         if (object.getId() == null) {
-            Log.e("Many", "add() in Many called for nonsaved object! " + object.toString());
+            Log.w("Many", "add() in Many called for nonsaved object! " + object.toString());
             object.save();
         }
         boolean res = data.add(object);
