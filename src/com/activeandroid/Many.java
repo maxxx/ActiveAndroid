@@ -26,9 +26,6 @@ public class Many<T extends ExtendedModel> extends ExtendedModel implements List
     @Column(name = "items")
     String ids = ""; // "1, 2, 3..."
     @JsonIgnore
-    @Column(name = "type")
-    String type = "";
-    @JsonIgnore
     @Column(name = "class_name")
     String class_name = "";
 
@@ -69,7 +66,6 @@ public class Many<T extends ExtendedModel> extends ExtendedModel implements List
     protected Many(Parcel in) {
         super(in);
         this.ids = in.readString();
-        this.type = in.readString();
         this.class_name = in.readString();
         initClass();
         this.data = new ArrayList<>();
@@ -93,7 +89,6 @@ public class Many<T extends ExtendedModel> extends ExtendedModel implements List
     public Many(Many many) {
         super(many.getId());
         this.ids = many.ids;
-        this.type = many.type;
         this.clazz = many.clazz;
         this.class_name = many.class_name;
         // fill data
@@ -103,13 +98,6 @@ public class Many<T extends ExtendedModel> extends ExtendedModel implements List
     public void initWith(Class<T> clazz) {
         this.clazz = clazz;
         this.class_name = clazz.getName();
-        Table tableAnnotation = clazz.getAnnotation(Table.class);
-        if (tableAnnotation != null && tableAnnotation.name() != null) {
-            this.type = tableAnnotation.name();
-        } else {
-            this.type = clazz.getSimpleName();
-        }
-        data = new ArrayList<>();
     }
 
     /**
@@ -128,8 +116,11 @@ public class Many<T extends ExtendedModel> extends ExtendedModel implements List
         }
         ids = Convert.listToString(temp);
 
-        // should be impossible
-        if (class_name == null && clazz != null) {
+        // situation when data comes from JSON
+        if (clazz == null && !data.isEmpty()) {
+            T obj = data.get(0);
+            initWith((Class<T>) obj.getClass());
+        } else if (class_name == null) {
             class_name = clazz.getName();
         }
         return super.save();
@@ -175,16 +166,6 @@ public class Many<T extends ExtendedModel> extends ExtendedModel implements List
 
     @Override
     public boolean add(T object) {
-//        if (this.clazz == null) {
-//            this.clazz = (Class<T>) object.getClass();
-//            this.class_name = clazz.getName();
-//            Table tableAnnotation = clazz.getAnnotation(Table.class);
-//            if (tableAnnotation != null && tableAnnotation.name() != null) {
-//                this.type = tableAnnotation.name();
-//            } else {
-//                this.type = clazz.getSimpleName();
-//            }
-//        }
         if (object.getId() == null) {
             Log.e("Many", "add() in Many called for nonsaved object! " + object.toString());
             object.save();
@@ -336,7 +317,6 @@ public class Many<T extends ExtendedModel> extends ExtendedModel implements List
     public void writeToParcel(Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
         dest.writeString(this.ids);
-        dest.writeString(this.type);
         dest.writeString(this.class_name);
     }
 
