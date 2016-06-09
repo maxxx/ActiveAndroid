@@ -11,7 +11,8 @@ This is my fork, with my changes.
 * Enabled UUID serialization/deserialization
 * All arguments in "where" now serialized too if it possible
 * AA_DB_RESET meta in AndroidManifest.xml for recreate database [more about](https://github.com/jlhonora/ActiveAndroid/commit/945a096fb28aca21cc8bf99e9f8f6930f8e82098)
-* optimizations and fixes
+* add Many class, that act as ArrayList of childs models
+* merge pull requests, optimizations and fixes
 
 ## Download
 
