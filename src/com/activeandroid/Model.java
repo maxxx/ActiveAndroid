@@ -45,9 +45,10 @@ public abstract class Model {
 	private final String idName;
 	private static Map<String, List<Integer>> columnIndexesCache = new HashMap<String, List<Integer>>();
 	private static Map<String, List<Class>> fieldTypesCache = new HashMap<String, List<Class>>();
+    protected boolean cacheable = true;
 
-	//////////////////////////////////////////////////////////////////////////////////////
-	// CONSTRUCTORS
+    //////////////////////////////////////////////////////////////////////////////////////
+    // CONSTRUCTORS
 	//////////////////////////////////////////////////////////////////////////////////////
 
 	public Model() {
@@ -271,6 +272,9 @@ public abstract class Model {
 					if (entity == null) {
 						entity = new Select().from(entityType).where(idName+"=?", entityId).executeSingle();
 					}
+                    if (entity instanceof ExtendedModel) {
+                        ((ExtendedModel) entity).afterLoad();
+                    }
 
 					value = entity;
 				}
@@ -303,8 +307,8 @@ public abstract class Model {
 			}
 		}
 
-		if (mId != null) {
-			Cache.addEntity(this);
+        if (mId != null && cacheable) {
+            Cache.addEntity(this);
 		}
 	}
 

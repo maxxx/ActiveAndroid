@@ -31,6 +31,7 @@ public class Many<T extends ExtendedModel> extends ExtendedModel implements List
 
     public Many() {
         super();
+        cacheable = false;
 
         Type type = getClass().getGenericSuperclass();
         if (type instanceof ParameterizedType) {
@@ -59,12 +60,14 @@ public class Many<T extends ExtendedModel> extends ExtendedModel implements List
 
     public Many(Class<T> clazz) {
         super();
+        cacheable = false;
         initWith(clazz);
         reload();
     }
 
     protected Many(Parcel in) {
         super(in);
+        cacheable = false;
         this.ids = in.readString();
         this.class_name = in.readString();
         initClass();
@@ -88,6 +91,7 @@ public class Many<T extends ExtendedModel> extends ExtendedModel implements List
 
     public Many(Many many) {
         super(many.getId());
+        cacheable = false;
         this.ids = many.ids;
         this.clazz = many.clazz;
         this.class_name = many.class_name;
