@@ -271,7 +271,7 @@ public class Configuration {
 			if (async != null) {
 				configuration.async = async;
 			} else {
-				configuration.async = getResetDatabaseOrDefault();
+				configuration.async = getAsyncDatabaseOrDefault();
 			}
 
 			return configuration;
