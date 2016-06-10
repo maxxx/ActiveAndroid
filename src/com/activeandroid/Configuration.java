@@ -16,15 +16,14 @@ package com.activeandroid;
  * limitations under the License.
  */
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import android.content.Context;
-
 import com.activeandroid.serializer.TypeSerializer;
 import com.activeandroid.util.Log;
 import com.activeandroid.util.ReflectionUtils;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class Configuration {
 
@@ -40,6 +39,7 @@ public class Configuration {
 	private int mDatabaseVersion;
 	private String mSqlParser;
 	private Boolean mResetDatabase;
+	private Boolean async;
 	private List<Class<? extends Model>> mModelClasses;
 	private List<Class<? extends TypeSerializer>> mTypeSerializers;
 	private int mCacheSize;
@@ -76,6 +76,10 @@ public class Configuration {
 		return mResetDatabase;
 	}
 
+	public boolean isAsyncDatabase() {
+		return async;
+	}
+
 	public List<Class<? extends Model>> getModelClasses() {
 		return mModelClasses;
 	}
@@ -107,6 +111,7 @@ public class Configuration {
 		private final static String AA_SERIALIZERS = "AA_SERIALIZERS";
 		private final static String AA_SQL_PARSER = "AA_SQL_PARSER";
 		private final static String AA_DB_RESET = "AA_DB_RESET";
+		private final static String AA_DB_ASYNC = "AA_DB_ASYNC";
 
 		private static final int DEFAULT_CACHE_SIZE = 1024;
 		private static final String DEFAULT_DB_NAME = "Application.db";
@@ -123,6 +128,7 @@ public class Configuration {
 		private Integer mDatabaseVersion;
 		private String mSqlParser;
 		private Boolean mResetDatabase;
+		private Boolean async;
 		private List<Class<? extends Model>> mModelClasses;
 		private List<Class<? extends TypeSerializer>> mTypeSerializers;
 
@@ -262,6 +268,12 @@ public class Configuration {
 				configuration.mResetDatabase = getResetDatabaseOrDefault();
 			}
 
+			if (async != null) {
+				configuration.async = async;
+			} else {
+				configuration.async = getResetDatabaseOrDefault();
+			}
+
 			return configuration;
 		}
 
@@ -339,6 +351,14 @@ public class Configuration {
 				return false;
 			}
 			return reset;
+		}
+
+		private Boolean getAsyncDatabaseOrDefault() {
+			final Boolean res = ReflectionUtils.getMetaData(mContext, AA_DB_ASYNC);
+			if (res == null) {
+				return false;
+			}
+			return res;
 		}
 	}
 }

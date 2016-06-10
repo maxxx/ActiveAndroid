@@ -18,11 +18,11 @@ package com.activeandroid;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-
-import com.activeandroid.util.Log;
 import android.os.Build;
+import com.activeandroid.util.Log;
 
 public final class ActiveAndroid {
+	private static boolean async = false;
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PUBLIC METHODS
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -43,6 +43,7 @@ public final class ActiveAndroid {
 		// Set logging enabled first
 		setLoggingEnabled(loggingEnabled);
 		Cache.initialize(configuration);
+		async = configuration.isAsyncDatabase();
 	}
 
 	public static void clearCache() {
@@ -66,8 +67,8 @@ public final class ActiveAndroid {
      * blocks, allowing better read concurrency.
      */
 	public static void beginTransaction() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
-            Cache.openDatabase().beginTransaction();
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB || !async) {
+			Cache.openDatabase().beginTransaction();
         } else {
             Cache.openDatabase().beginTransactionNonExclusive();
         }

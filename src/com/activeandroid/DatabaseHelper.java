@@ -16,28 +16,17 @@ package com.activeandroid;
  * limitations under the License.
  */
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.text.TextUtils;
-
-import com.activeandroid.util.IOUtils;
-import com.activeandroid.util.Log;
-import com.activeandroid.util.NaturalOrderComparator;
-import com.activeandroid.util.SQLiteUtils;
-import com.activeandroid.util.SqlParser;
 import android.os.Build;
+import android.text.TextUtils;
+import com.activeandroid.util.*;
+
+import java.io.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public final class DatabaseHelper extends SQLiteOpenHelper {
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -51,6 +40,7 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
     //////////////////////////////////////////////////////////////////////////////////////
 
     private final String mSqlParser;
+	private boolean async = false;
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
@@ -60,6 +50,7 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
 		super(configuration.getContext(), configuration.getDatabaseName(), null, configuration.getDatabaseVersion());
 		copyAttachedDatabase(configuration.getContext(), configuration.getDatabaseName());
 		mSqlParser = configuration.getSqlParser();
+		async = configuration.isAsyncDatabase();
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -76,8 +67,8 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
      */
     @Override
     public void onConfigure(SQLiteDatabase db) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            db.enableWriteAheadLogging();
+		if (async && Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+			db.enableWriteAheadLogging();
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             db.setForeignKeyConstraintsEnabled(true);
