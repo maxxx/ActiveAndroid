@@ -4,9 +4,9 @@ import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Parcel;
 import android.os.Parcelable;
+
 import com.activeandroid.content.ContentProvider;
 import com.activeandroid.filler.Filler;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -16,39 +16,21 @@ import java.util.Collection;
 import java.util.HashMap;
 
 public abstract class ExtendedModel extends Model implements Parcelable {
-    @JsonIgnore
-    public TableInfo mTableInfo;
-    @JsonIgnore
-    public String idName;
     public static HashMap<Class, ArrayList<Filler>> fastSaveCache = new HashMap<>();
     public static Constructor<ContentValues> contentValuesConstructor;
 
     public ExtendedModel() {
         super();
-        mTableInfo = Cache.getTableInfo(getClass());
-        idName = mTableInfo.getIdName();
     }
-
 
     public ExtendedModel(Long id) {
         this();
         setAaId(id);
     }
 
-    private static Field idField;
-
     public void setAaId(Long id) {
-        try {
-            if (idField == null) {
-                idField = Model.class.getDeclaredField("mId");
-                idField.setAccessible(true);
-            }
-            idField.set(this, id);
-        } catch (Exception e) {
-            throw new RuntimeException("Reflection failed to get the Active Android ID", e);
-        }
+        mId = id;
     }
-
 
     protected Long fastSave() {
         // return super.save();

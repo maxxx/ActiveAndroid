@@ -26,6 +26,8 @@ dependencies {
     compile 'com.fasterxml.jackson.core:jackson-core:2.6.0'
     compile 'com.fasterxml.jackson.core:jackson-annotations:2.6.0'
     compile 'com.fasterxml.jackson.core:jackson-databind:2.6.0'
+    // gson
+    //compile 'com.google.code.gson:gson:2.6.2'
 }
 
 android {

@@ -19,15 +19,21 @@ package com.activeandroid;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+
 import com.activeandroid.content.ContentProvider;
 import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
 import com.activeandroid.serializer.TypeSerializer;
 import com.activeandroid.util.Log;
 import com.activeandroid.util.ReflectionUtils;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.lang.reflect.Field;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @SuppressWarnings("unchecked")
 public abstract class Model {
@@ -41,10 +47,12 @@ public abstract class Model {
     // PRIVATE MEMBERS
     //////////////////////////////////////////////////////////////////////////////////////
 
-    private Long mId = null;
+    protected Long mId = null;
 
-    private final TableInfo mTableInfo;
-    private final String idName;
+    @JsonIgnore
+    protected final TableInfo mTableInfo;
+    @JsonIgnore
+    protected final String idName;
     private static Map<String, List<Integer>> columnIndexesCache = new HashMap<String, List<Integer>>();
     private static Map<String, List<Class>> fieldTypesCache = new HashMap<String, List<Class>>();
     protected boolean cacheable = true;
