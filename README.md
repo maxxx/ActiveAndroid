@@ -1,4 +1,4 @@
-[![Release](https://jitpack.io/v/NickRimmer/ActiveAndroid.svg)](https://jitpack.io/#NickRimmer/ActiveAndroid)
+[![Release](https://jitpack.io/v/maxxx/ActiveAndroid.svg)](https://jitpack.io/#maxxx/ActiveAndroid)
 
 # ActiveAndroid
 
