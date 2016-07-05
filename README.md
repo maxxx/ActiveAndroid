@@ -38,7 +38,7 @@ allprojects {
 
 dependencies {
     ...
-    compile 'com.github.NickRimmer:ActiveAndroid:3.0-NR'
+    compile 'com.github.maxxx:activeAndroid:1.+'
     ...
 }
 ```
